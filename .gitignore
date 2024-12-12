@@ -1,7 +1,11 @@
 # Miscellaneous
 *.class
 *.log
+<<<<<<< HEAD
 *.env
+=======
+.env
+>>>>>>> 1598b730d2772bab1544787eaf5508aa119aeb77
 *.pyc
 *.swp
 .DS_Store
