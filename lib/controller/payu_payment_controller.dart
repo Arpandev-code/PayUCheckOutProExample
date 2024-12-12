@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:payu_checkoutpro_flutter/PayUConstantKeys.dart';
 import 'package:payu_checkoutpro_flutter/payu_checkoutpro_flutter.dart';
@@ -22,6 +23,7 @@ class PayuPaymentController extends GetxController
   late Map<dynamic, dynamic> payUPaymentParams;
   late PayUCheckoutProFlutter _checkoutPro;
   late var txnId = "".obs;
+  static final merchantSecretKey = dotenv.env['MERCHANTSALTKEY'];
 
   @override
   void onInit() {
@@ -30,7 +32,7 @@ class PayuPaymentController extends GetxController
     _checkoutPro = PayUCheckoutProFlutter(this);
     //! Initialize payUPaymentParams in onInit method
     payUPaymentParams = {
-      PayUPaymentParamKey.key: "9let8O",
+      PayUPaymentParamKey.key: merchantSecretKey,
       PayUPaymentParamKey.amount: amountController.text.toString(),
       PayUPaymentParamKey.productInfo: "Test Product",
       PayUPaymentParamKey.firstName: nameController.text.toString(),
