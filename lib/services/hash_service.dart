@@ -2,12 +2,15 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:payu_checkoutpro_flutter/PayUConstantKeys.dart'
     show PayUHashConstantsKeys;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class HashService {
-  static const merchantSalt =
-      "CWTUWDoPdczLp3lLlDTWftbLJaJgF4fu"; // Add you Salt here.
-  static const merchantSecretKey =
-      "9let8O"; // Add Merchant Secrete Key - Optional
+  static final merchantSalt = dotenv.env['MERCHANTSALT'];
+  static final merchantSecretKey = dotenv.env['MERCHANTSALTKEY'];
+  // static const merchantSalt =
+  //     "CWTUWDoPdczLp3lLlDTWftbLJaJgF4fu"; // Add you Salt here.
+  // static const merchantSecretKey =
+  //     "9let8O"; // Add Merchant Secrete Key - Optional
   static Map generateHash(Map response) {
     var hashName = response[PayUHashConstantsKeys.hashName];
     var hashStringWithoutSalt = response[PayUHashConstantsKeys.hashString];
@@ -15,9 +18,9 @@ class HashService {
     var postSalt = response[PayUHashConstantsKeys.postSalt];
     var hash = "";
     if (hashType == PayUHashConstantsKeys.hashVersionV2) {
-      hash = getHmacSHA256Hash(hashStringWithoutSalt, merchantSalt);
+      hash = getHmacSHA256Hash(hashStringWithoutSalt, merchantSalt!);
     } else if (hashName == PayUHashConstantsKeys.mcpLookup) {
-      hash = getHmacSHA1Hash(hashStringWithoutSalt, merchantSecretKey);
+      hash = getHmacSHA1Hash(hashStringWithoutSalt, merchantSecretKey!);
     } else {
       var hashDataWithSalt = hashStringWithoutSalt + merchantSalt;
       if (postSalt != null) {
